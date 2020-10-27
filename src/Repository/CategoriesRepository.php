@@ -19,7 +19,25 @@ class CategoriesRepository extends ServiceEntityRepository
         parent::__construct($registry, Categories::class);
     }
 
+    public function subСategory($value) :array
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->andWhere('c.parent_id =:value')
+            ->setParameter('value', $value)
+            ->getQuery();
+        return $qb->getResult();
+    }
 
+
+    public function findChildren(int $categoriesId): array
+    {
+        return $this->createQueryBuilder('c')
+
+            ->andWhere('c.id = :categoriesId')
+            ->setParameter('categoriesId', $categoriesId)
+            ->getQuery()
+            ->getResult();
+    }
 
     // /**
     //  * @return Categories[] Returns an array of Categories objects

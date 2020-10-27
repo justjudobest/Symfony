@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -29,14 +30,15 @@ class ProductRepository extends ServiceEntityRepository
 
     public function ProductСommodity($value) :array
     {
-        return $this->createQueryBuilder('p')
+        $qb =  $this->createQueryBuilder('p')
             ->select('ap.value', 'a.name')
             ->join('p.attributeProduct','ap')
             ->join('ap.attributes','a')
             ->andWhere('p.id = :value')
             ->setParameter('value', $value)
-            ->getQuery()
-            ->getResult($value);
+            ->getQuery();
+
+        return $qb->getResult();
     }
 
     /**
@@ -44,16 +46,30 @@ class ProductRepository extends ServiceEntityRepository
      * @return array
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function ProductImages($value) :array
+
+
+    public function findChildren(int $productId): array
+    {
+       $qb =  $this->createQueryBuilder('p')
+            ->join('p.productOption', 'po')
+            ->andWhere('po.parent_id = :productId')
+            ->setParameter('productId', $productId)
+            ->getQuery();
+       return $qb->getResult();
+
+    }
+
+    public function findCategory(int $productId): array
     {
         return $this->createQueryBuilder('p')
-            ->select('i.url','i.name','i.id')
-            ->join('p.imagesProduct','i')
+            ->join('p.categories', 'c')
             ->andWhere('p.id = :value')
-            ->setParameter('value', $value)
+            ->setParameter('value', $productId)
             ->getQuery()
-            ->getResult($value);
+            ->getResult();
     }
+
+
 
 
     // /**

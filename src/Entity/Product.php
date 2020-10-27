@@ -39,6 +39,7 @@ class Product
      */
     private $attributeProduct;
 
+
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -51,7 +52,7 @@ class Product
 
     /**
      * @var
-     *   * @ORM\ManyToMany(targetEntity="App\Entity\ProductOption", mappedBy="products")
+     *   * @ORM\OneToMany(targetEntity="App\Entity\ProductOption", mappedBy="products")
      */
     protected $productOption;
 
@@ -136,4 +137,20 @@ class Product
     {
         return $this->attributeProduct;
     }
+
+    public function  getImagesProduct()
+    {
+        return $this->imagesProduct;
+    }
+
+    public function getProductOption()
+    {
+        return $this->productOption;
+    }
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+
+
 }

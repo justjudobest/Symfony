@@ -30,7 +30,7 @@ class Categories
     private $parent_id;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $level;
 

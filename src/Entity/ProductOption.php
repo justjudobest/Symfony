@@ -29,16 +29,11 @@ class ProductOption
     private $product_id;
 
     /**
-     *
-     * @ORM\ManyToMany(targetEntity="App\Entity\Product", inversedBy="productOption")
-     * @ORM\JoinTable(name="productOption_products",
-     *     joinColumns={
-     *       @ORM\JoinColumn(name="productOption_id", referencedColumnName="id")
-     *     },
-     *     inverseJoinColumns={
-     *       @ORM\JoinColumn(name="product_id", referencedColumnName="id")
-     *     }
-     * )
+     * @var
+     * @ORM\ManyToOne(targetEntity="App\Entity\Product", inversedBy="productOption")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="product_id", referencedColumnName="id")
+     * })
      */
     protected $products;
 
