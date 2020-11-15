@@ -1,0 +1,240 @@
+<div class="block product-block">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 col-md-6 col-lg-4">
+                <!-- Product Gallery -->
+                <div class="main-image">
+
+                    {% if product.imagesProduct %}
+
+                        <img src="{{ product.imagesProduct.0.url }}" class="zoom mainImage" alt=""
+                             data-zoom-image="{{ product.imagesProduct.0.url }}"/>
+
+
+                    {% endif %}
+                    <div class="dblclick-text"><span>Double click for enlarge</span></div>
+                    <a href="http://www.youtube.com/watch?v=qZeeMm35LXo" class="video-link"><i
+                                class="icon icon-film"></i></a>
+                    {% if product.imagesProduct %}
+                        <a href="{{ product.imagesProduct.0.url }}" class="zoom-link zoom-mainImage"><i
+                                    class="icon icon-zoomin"></i></a>
+                    {% endif %}
+                </div>
+                <div class="product-previews-wrapper">
+                    <div class="product-previews-carousel" id="previewsGallery">
+                        {% set images = product.imagesProduct %}
+                        {% for image in images %}
+
+                            <a href="#" data-image="{{ image.url }}" data-zoom-image="{{ image.url }}"><img
+                                        src="{{ image.url }}" alt=""/></a>
+
+                        {% endfor %}
+
+                    </div>
+                </div>
+                <!-- /Product Gallery -->
+            </div>
+
+            {# {{ dump(images) }} #}
+            {# {{ dump(attributes) }} #}
+            {# {{ dump (product) }} #}
+
+
+            <div class="col-sm-6 col-md-6 col-lg-5">
+                <div class="product-info-block classic">
+                    <div class="product-info-top">
+                        <div class="product-sku">SKU:
+                            <span>{{ product.sku }}
+
+                            </span>
+                        </div>
+                    </div>
+                    <div class="product-name-wrapper">
+                        <h1 class="product-name">
+                            {% for attribute in attributes %}
+                                {% if attribute.name == 'name' %}
+                                    {{ attribute.value }}
+                                {% endif %}
+                            {% endfor %}
+                        </h1>
+                        <div class="product-labels">
+                            <span class="product-label sale">SALE</span>
+                            <span class="product-label new">NEW</span>
+                        </div>
+                    </div>
+                    <div class="product-availability-color"><span></span></div>
+                    <div class="product-availability-size"><span></span></div>
+
+
+                    <div class="product-description">
+                        <p>
+                            {% for attribute in attributes %}
+                                {% if attribute.name == 'description' %}
+                                    {{ attribute.value }}
+                                {% endif %}
+                            {% endfor %}
+                        </p>
+                    </div>
+                    <div class="countdown-circle hidden-xs">
+                        <div class="countdown-wrapper">
+                            <div class="countdown" data-promoperiod="100000000"></div>
+                            <div class="countdown-text">
+                                <div class="text1">Discount 45% OFF</div>
+                                <div class="text2">Hurry, there are only <span>14</span> item(s) left!</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-options">
+                        <div class="product-size swatches">
+                            <span class="option-label">Size:</span>
+                            <ul class="size-list">
+                                {% for child in children %}
+                                    {% for attribute in child.attributeProduct %}
+                                        {% if attribute.attributes.name == 'amount' %}
+                                            {% if attribute.value > 0 %}
+                                                {% for attribute in child.attributeProduct %}
+                                                    {% if  attribute.attributes.name == 'size' %}
+                                                        <li>
+                                                            <a data-url="{{ path('product_detail_children', {'product': product.id, 'childProduct': child.id}) }}"
+                                                               class="custom-size-js" href="#"><span
+                                                                        class="value"> {{ attribute.value }}</span></a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                            {% for attribute in child.attributeProduct %}
+                                                {% if attribute.attributes.name == 'amount' %}
+                                                    {% if attribute.value < 1 %}
+                                                        {% for attribute in child.attributeProduct %}
+                                                            {% if  attribute.attributes.name == 'size' %}
+                                                                <li class="absent-option"><a
+                                                                            data-url="{{ path('product_detail_children', {'product': product.id, 'childProduct': child.id}) }}"
+                                                                            class="custom-size-js" href="#"
+                                                                    ><span
+                                                                                class="value">{{ attribute.value }}</span></a>
+                                                                </li>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {# <div class="product-color swatches"> #}
+                        <div class="swatches">
+                            {# <span class="option-label">Color:</span> #}
+                            {# <div class="select-wrapper-sm"> #}
+                            {# <select class="form-control input-sm"> #}
+                            {# <option value="Red">Red</option> #}
+                            {# <option value="Green">Green</option> #}
+                            {# <option value="Blue" selected>Blue</option> #}
+                            {# <option value="Yellow">Yellow</option> #}
+                            {# <option value="Grey">Grey</option> #}
+                            {# <option value="Violet">Violet</option> #}
+                            {# </select> #}
+                            {# </div> #}
+
+                            <ul class="color-list">
+                                {% for child in children %}
+                                    {% for attribute in child.attributeProduct %}
+                                        {% if attribute.attributes.name == 'amount' %}
+                                            {% if attribute.value > 0 %}
+                                                {% for attribute in child.attributeProduct %}
+                                                    {% if  attribute.attributes.name == 'color' %}
+                                                        {% for image in child.imagesProduct %}
+                                                            <li>
+                                                                <a data-url="{{ path('product_detail_children', {'product': product.id, 'childProduct': child.id}) }}"
+                                                                   class="custom-color-js"
+                                                                   ><span
+                                                                            class="value"><img src=" {{ image.url }}"
+                                                                                               alt=""></span>
+                                                                </a>
+                                                            </li>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+
+                                            {% for attribute in child.attributeProduct %}
+                                                {% if attribute.attributes.name == 'amount' %}
+                                                    {% if attribute.value < 1 %}
+                                                        {% for attribute in child.attributeProduct %}
+                                                            {% if  attribute.attributes.name == 'color' %}
+                                                                {% for image in child.imagesProduct %}
+                                                                    <li class="absent-option"><a
+                                                                                data-url="{{ path('product_detail_children', {'product': product.id, 'childProduct': child.id}) }}"
+                                                                                class="custom-color-js"
+                                                                                data-toggle="tooltip"
+                                                                                data-placement="top" title="Red"
+                                                                                data-value="green"
+                                                                                data-image="/images/products/product-color-green.jpg"><span
+                                                                                    class="value"><img
+                                                                                        src="{{ image.url }}"
+                                                                                        alt=""></span></a></li>
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endfor %}
+
+
+                            </ul>
+
+
+                        </div>
+                        <div class="product-qty">
+                            <span class="option-label">Qty:</span>
+                            <div class="qty qty-changer">
+                                <fieldset>
+                                    <input type="button" value="&#8210;" class="decrease">
+                                    <input type="text" class="qty-input" value="1" data-min="0">
+                                    <input type="button" value="+" class="increase">
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-actions">
+                        <div class="row">
+                            <div class="col-md-6">
+
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="price">
+                                    <span class="old-price"><span>$140.00</span></span>
+                                    <span class="special-price">
+                                        <span>
+                                               {% for attribute in attributes %}
+                                                   {% if attribute.name == 'price' %}
+                                                       ${{ attribute.value }}
+                                                   {% endif %}
+                                               {% endfor %}
+
+                                        </span>
+                                    </span>
+                                </div>
+                                <div class="actions">
+                                    <button data-loading-text='<i class="icon icon-spinner spin"></i><span>Add to cart</span>'
+                                            class="btn btn-lg btn-loading"><i class="icon icon-cart"></i><span>Add to cart</span>
+                                    </button>
+                                    <a href="#" class="btn btn-lg product-details"><i
+                                                class="icon icon-external-link"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+

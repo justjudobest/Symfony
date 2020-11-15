@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ProductOption{% endblock %}
+
+{% block body %}
+    <h1>ProductOption</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ product_option.id }}</td>
+            </tr>
+            <tr>
+                <th>Parent_id</th>
+                <td>{{ product_option.parentId }}</td>
+            </tr>
+            <tr>
+                <th>Product_id</th>
+                <td>{{ product_option.productId }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('product_option_index') }}">back to list</a>
+
+    <a href="{{ path('product_option_edit', {'id': product_option.id}) }}">edit</a>
+
+    {{ include('product_option/_delete_form.html.twig') }}
+{% endblock %}
